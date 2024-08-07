@@ -32,19 +32,18 @@ jobs:
         name: webapp # optional, default is artifact
         path: website/**
         if-no-files-found: warn      
-  deploy:
+  deploy: 
     runs-on: ubuntu-latest
     needs: build 
     steps:
     - name: Download a Build Artifact
-      uses: actions/upload-artifact@v2.1.0
+      uses: actions/download-artifact@v2.1.0
       with:
         name: webapp
-        path: webapp
+        path: website/**
     - name: Deploy web app
-      uses: azure/webapps-upload-artifact@v2
+      uses: azure/webapps-deploy@v2
       with:
         app-name: GitHubApp-42964895
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE  }}
-        package: webapp
-        
+        package: webapp        
